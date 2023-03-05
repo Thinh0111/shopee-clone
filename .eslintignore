@@ -1,0 +1,3 @@
+# không muốn kiểm tra eslintrc đối với những file này để không xảy ra những lỗi ko mong muốn
+node_modules/
+dist/
