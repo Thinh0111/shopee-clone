@@ -1,35 +1,66 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import RegisterLayout from 'src/layouts/RegisterLayout'
+import { useForm } from 'react-hook-form'
+import { getRules } from 'src/utils/rules'
 
+interface FormData {
+  email: string
+  password: string
+}
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    formState: { errors }
+  } = useForm<FormData>()
+
+  const rules = getRules()
+
+  const onSubmit = handleSubmit(
+    (data) => {
+      console.log(data)
+    },
+    (data) => {
+      const password = getValues('password')
+      console.log(password)
+    }
+  )
+
   return (
     <div className='bg-orange'>
       <div className='mx-auto max-w-7xl px-4'>
         <div className='grid grid-cols-1 py-12 lg:grid-cols-5 lg:py-32 lg:pr-10'>
           <div className='lg:col-span-2 lg:col-start-4'>
-            <form className='rounded bg-white p-10 shadow-sm'>
+            <form className='rounded bg-white p-10 shadow-sm' onSubmit={onSubmit}>
               <div className='text-2xl '>Đăng Nhập </div>
               <div className='mt-8'>
                 <input
-                  type='email'
-                  name='email'
+                  type='text'
                   className='w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
                   placeholder='Email'
+                  {...register('email', rules.email)}
                 />
-                <div className='mt-1 min-h-[1rem] text-sm text-red-600'>Email không hợp lệ</div>
+                <div className='mt-1 min-h-[1rem] text-sm text-red-600'> {errors.email?.message}</div>
               </div>
               <div className='mt-3'>
                 <input
                   type='password'
-                  name='password'
                   className='w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm'
                   placeholder='Password'
+                  autoComplete='on'
+                  {...register('password', rules.password)}
                 />
-                <div className='mt-1 min-h-[1rem] text-sm text-red-600'>Email không hợp lệ</div>
+                <div className='mt-1 min-h-[1rem] text-sm text-red-600'>{errors.password?.message}</div>
               </div>
+
+              {/* Khi khai báo một button trong 1 form mà không điền type cho button thì mặc định button đó có type là submit */}
               <div className='mt-3'>
-                <button className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'>
+                <button
+                  className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'
+                  type='submit'
+                >
                   Đăng nhập
                 </button>
               </div>
