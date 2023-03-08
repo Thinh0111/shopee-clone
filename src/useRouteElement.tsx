@@ -1,5 +1,7 @@
 import React from 'react'
 import { useRoutes } from 'react-router-dom'
+import MainLayout from './layouts/MainLayout'
+import RegisterLayout from './layouts/RegisterLayout'
 import Login from './pages/Login'
 import ProductList from './pages/ProductList'
 import Register from './pages/Register'
@@ -8,15 +10,29 @@ const useRouteElement = () => {
   const routeElement = useRoutes([
     {
       path: '/',
-      element: <ProductList />
+      element: (
+        <MainLayout>
+          <ProductList />
+        </MainLayout>
+      )
     },
     {
       path: '/login',
-      element: <Login />
+      element: (
+        <RegisterLayout>
+          {' '}
+          <Login />
+        </RegisterLayout>
+      )
     },
     {
       path: '/register',
-      element: <Register />
+      element: (
+        <RegisterLayout>
+          {' '}
+          <Register />
+        </RegisterLayout>
+      )
     }
   ])
   return routeElement
