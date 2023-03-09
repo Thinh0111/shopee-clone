@@ -10,6 +10,7 @@ import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.types'
 import { AppContext } from 'src/context/app.context'
 import { useContext } from 'react'
+import Button from 'src/components/Button'
 
 type FormData = Schema
 const Register = () => {
@@ -134,12 +135,14 @@ const Register = () => {
                 <div className='mt-1 min-h-[1.25rem] text-sm text-red-600'>{errors.confirm_password?.message}</div>
               </div> */}
               <div className='mt-2'>
-                <button
-                  className='w-full bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'
+                <Button
+                  className='flex w-full items-center justify-center bg-red-500 py-4 px-2 text-center text-sm uppercase text-white hover:bg-red-600'
+                  isLoading={registerAccountMutation.isLoading}
+                  disabled={registerAccountMutation.isLoading}
                   type='submit'
                 >
                   Đăng ký
-                </button>
+                </Button>
               </div>
 
               <div className='mt-8 flex items-center justify-center'>
