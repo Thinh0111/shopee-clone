@@ -1,8 +1,14 @@
 import axios, { AxiosError, type AxiosInstance } from 'axios'
 import { toast } from 'react-toastify'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
+import path from 'src/constants/path'
 import { AuthResponse } from 'src/types/auth.types'
-import { clearAccessTokenFromLocalStorage, getAccessTokenFromLocalStorage, saveAccessTokenToLocalStorage } from './auth'
+import {
+  clearLocalStorage,
+  getAccessTokenFromLocalStorage,
+  saveAccessTokenToLocalStorage,
+  setProfileToLocalStorage
+} from './auth'
 
 class Http {
   instance: AxiosInstance
@@ -36,12 +42,14 @@ class Http {
       (response) => {
         // function bình thường ko thể truy cập đến this, để truy cập đến this thì phải dùng arrow function
         const { url } = response.config
-        if (url === '/login' || url === '/register') {
-          this.accessToken = (response.data as AuthResponse).data?.access_token
+        if (url === path.login || url === path.register) {
+          const data = response.data as AuthResponse
+          this.accessToken = data.data?.access_token
           saveAccessTokenToLocalStorage(this.accessToken)
-        } else if (url === '/logout') {
+          setProfileToLocalStorage(data.data.user)
+        } else if (url === path.logout) {
           this.accessToken = ''
-          clearAccessTokenFromLocalStorage()
+          clearLocalStorage()
         }
 
         return response

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
@@ -28,7 +29,8 @@ const useRouteElement = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: 'profile',
+          // ko cần /profile react-router-dom nó tự hiểu
+          path: path.profile,
           element: (
             <MainLayout>
               <Profile />
@@ -44,7 +46,7 @@ const useRouteElement = () => {
       element: <RejectedRoute />,
       children: [
         {
-          path: 'login',
+          path: path.login,
           element: (
             <RegisterLayout>
               {' '}
@@ -53,7 +55,7 @@ const useRouteElement = () => {
           )
         },
         {
-          path: 'register',
+          path: path.register,
           element: (
             <RegisterLayout>
               {' '}
