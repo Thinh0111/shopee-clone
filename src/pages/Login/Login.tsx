@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 
 import Input from 'src/components/Input'
@@ -9,7 +9,8 @@ import { useMutation } from 'react-query'
 import { login } from 'src/api/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
-import { ResponseApi } from 'src/types/utils.types'
+import { ErrorResponse } from 'src/types/utils.types'
+import { AppContext } from 'src/context/app.context'
 
 // interface FormData {
 //   email: string
@@ -31,6 +32,8 @@ const Login = () => {
     resolver: yupResolver(loginSchema)
   })
 
+  const { setIsAuthenticated } = useContext(AppContext)
+  const navigate = useNavigate()
   // const rules = getRules()
 
   const loginMutation = useMutation({
@@ -39,11 +42,12 @@ const Login = () => {
 
   const onSubmit = handleSubmit((data) => {
     loginMutation.mutate(data, {
-      onSuccess: (data) => {
-        console.log(data)
+      onSuccess: () => {
+        setIsAuthenticated(true)
+        navigate('/')
       },
       onError: (error) => {
-        if (isAxiosUnprocessableEntityError<ResponseApi<FormData>>(error)) {
+        if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
             Object.keys(formError).forEach((key) => {
