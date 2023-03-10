@@ -1,6 +1,7 @@
 import React from 'react'
 import { useQuery } from 'react-query'
 import productApi from 'src/api/product.api'
+import Pagination from 'src/components/Pagination'
 import useQueryParams from 'src/hook/useQueryParams'
 import AsideFilter from './AsideFilter'
 import Product from './Product/Product'
@@ -15,7 +16,9 @@ const ProductList = () => {
       return productApi.getProduct(queryParams)
     }
   })
-  console.log(data)
+
+  const [page, setPage] = React.useState(1)
+
   return (
     <div className='bg-gray-200 py-6'>
       <div className='container'>
@@ -33,6 +36,7 @@ const ProductList = () => {
                   </div>
                 ))}
             </div>
+            <Pagination page={page} setPage={setPage} pageSize={20} />
           </div>
         </div>
       </div>

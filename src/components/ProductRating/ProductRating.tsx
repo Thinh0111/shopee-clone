@@ -6,6 +6,7 @@ const ProductRating = ({ rating }: { rating: number }) => {
       return '100%'
     }
     if (order > rating && order - rating < 1) {
+      // 3.4 -3
       return (rating - Math.floor(rating)) * 100 + '%'
     }
     return '0%'
