@@ -38,3 +38,13 @@ Ví dụ đăng ký email đã tồn tại
   "message": "Lỗi do abcxyz"
 }
 ```
+
+### Cách tính sao
+
+Ví dụ: rating = 3.4
+
+- 1 <= 3.4 => 100%
+- 2 <= 3.4 => 100%
+- 3 <= 3.4 => 100%
+- 4 > 3.4 => 40% (4 - 3.4 < 1) (phần trăm này là số thập phân)
+- 5 > 3.4 => 0% (5 - 3.4 > 1)

@@ -6,7 +6,7 @@ import Input from 'src/components/Input'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { getRules, schema, Schema } from 'src/utils/rules'
 import { useMutation } from 'react-query'
-import { login } from 'src/api/auth.api'
+import authApi from 'src/api/auth.api'
 import { omit } from 'lodash'
 import { isAxiosUnprocessableEntityError } from 'src/utils/utils'
 import { ErrorResponse } from 'src/types/utils.types'
@@ -38,7 +38,7 @@ const Login = () => {
   // const rules = getRules()
 
   const loginMutation = useMutation({
-    mutationFn: (body: Omit<FormData, 'confirm_password'>) => login(body)
+    mutationFn: (body: Omit<FormData, 'confirm_password'>) => authApi.login(body)
   })
 
   const onSubmit = handleSubmit((data) => {
