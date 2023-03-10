@@ -51,6 +51,7 @@ const Pagination = ({ page, setPage, pageSize }: Props) => {
         // 1 < 5 && 4 > 3 && 4 < 14 ok
         // 1 < 5 && 5 > 3 && 5 < 13 ok
 
+        //* Điều kiện để return về ...
         if (page <= RANGE * 2 + 1 && pageNumber > page + RANGE && pageNumber < pageSize - RANGE + 1) {
           // sau page hiện tại là dot after
           return renderDotAfter(index)
