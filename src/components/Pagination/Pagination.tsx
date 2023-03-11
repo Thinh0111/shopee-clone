@@ -1,14 +1,19 @@
 import classNames from 'classnames'
 import React from 'react'
+import { Link, createSearchParams } from 'react-router-dom'
+import path from 'src/constants/path'
+import { QueryConfig } from 'src/pages/ProductList/ProductList'
 
 interface Props {
-  page: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
+  queryConfig: QueryConfig
   pageSize: number
 }
 
 const RANGE = 2
-const Pagination = ({ page, setPage, pageSize }: Props) => {
+const Pagination = ({ queryConfig, pageSize }: Props) => {
+  // convert qua Number vì page trong queryConfig là string
+  const page = Number(queryConfig.page)
+
   const renderPagination = () => {
     let dotAfter = false
     let dotBefore = false
@@ -18,9 +23,9 @@ const Pagination = ({ page, setPage, pageSize }: Props) => {
       if (!dotBefore) {
         dotBefore = true
         return (
-          <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm' key={index}>
+          <span className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm' key={index}>
             ...
-          </button>
+          </span>
         )
       }
       return null
@@ -31,9 +36,9 @@ const Pagination = ({ page, setPage, pageSize }: Props) => {
       if (!dotAfter) {
         dotAfter = true
         return (
-          <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm' key={index}>
+          <span className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm' key={index}>
             ...
-          </button>
+          </span>
         )
       }
       return null
@@ -67,24 +72,66 @@ const Pagination = ({ page, setPage, pageSize }: Props) => {
 
         return (
           // Nếu page === pageNumber thì active với border-cyan-500 còn ko thì ko active với border-transparent
-          <button
+          <Link
+            to={{
+              pathname: path.home,
+
+              // createSearchParams nó return về 1 URLSearchParams còn search nó return về 1 string chính vì vậy phải toString()
+              search: createSearchParams({
+                ...queryConfig,
+
+                // pageNumber.toString() để convert qua string
+                page: pageNumber.toString()
+              }).toString()
+            }}
             className={classNames('mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm', {
               'border-cyan-500 ': page === pageNumber,
               'border-transparent': page !== pageNumber
             })}
             key={index}
-            onClick={() => setPage(pageNumber)}
           >
             {pageNumber}
-          </button>
+          </Link>
         )
       })
   }
   return (
     <div className='mt-6 flex flex-wrap items-center justify-center'>
-      <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>Prev</button>
+      {page === 1 ? (
+        // Nếu page === 1 thì Prev là span để ko click đc
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Prev</span>
+      ) : (
+        <Link
+          to={{
+            pathname: path.home,
+            search: createSearchParams({
+              ...queryConfig,
+              page: (page - 1).toString()
+            }).toString()
+          }}
+          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'
+        >
+          Prev
+        </Link>
+      )}
+
       {renderPagination()}
-      <button className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'>Next</button>
+      {page === pageSize ? (
+        <span className='mx-2 cursor-not-allowed rounded border bg-white/60 px-3 py-2 shadow-sm'>Next</span>
+      ) : (
+        <Link
+          to={{
+            pathname: path.home,
+            search: createSearchParams({
+              ...queryConfig,
+              page: (page + 1).toString()
+            }).toString()
+          }}
+          className='mx-2 cursor-pointer rounded border bg-white px-3 py-2 shadow-sm'
+        >
+          Next
+        </Link>
+      )}
     </div>
   )
 }
