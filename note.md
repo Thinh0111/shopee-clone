@@ -67,4 +67,8 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 1 2 ... 14 15 [16] 17 18 ... 19 20
 1 2 ... 15 16 [17] 18 19 ... 19 20
 1 2 ... 16 17 [18] 19 20
-1 2 ... 17 18 [19] 20
+1 2 ... 17 18 [19]
+
+### Note
+
+- dùng thẻ Link có ưu điểm khi hover vào ta thấy được url khi dùng thẻ link ta có thể click chuột `Open link new tab` và `Open link in new window`. Dùng thẻ button, div xử lý navigate thì nó ko có được behavior đấy

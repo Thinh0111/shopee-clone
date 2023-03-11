@@ -1,6 +1,6 @@
 // Thêm as const thì cái const chỉ đọc được thôi (ko có ghi, chỉnh sửa được)
 export const sortBy = {
-  createAt: 'createdAt',
+  createdAt: 'createdAt',
   view: 'view',
   sold: 'sold',
   price: 'price'
