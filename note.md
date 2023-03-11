@@ -72,3 +72,9 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 ### Note
 
 - dùng thẻ Link có ưu điểm khi hover vào ta thấy được url khi dùng thẻ link ta có thể click chuột `Open link new tab` và `Open link in new window`. Dùng thẻ button, div xử lý navigate thì nó ko có được behavior đấy
+
+- handle với những component nó không nhận được cái `props` là `register`. Khi các làm việc với các component trong MUI, ANTD thì nó ko nhận `register props`. Sẻ sử dụng Contoller
+
+- Khi sử dụng gọi `register` thì nó tự generate cái ref rồi. Còn khi sử dụng Controller thì cần phải truyền ref để handle việc focus.
+
+- Có 1 cơ chế trong react-hook-form khi ta onChange 1 input nào đấy thì nó sẽ validate input đó thôi

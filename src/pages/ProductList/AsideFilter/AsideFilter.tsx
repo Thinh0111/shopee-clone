@@ -1,18 +1,68 @@
+import { yupResolver } from '@hookform/resolvers/yup'
 import classNames from 'classnames'
 import React from 'react'
-import { createSearchParams, Link } from 'react-router-dom'
+import { useForm, Controller } from 'react-hook-form'
+import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
+import InputNumber from 'src/components/InputNumber'
 import path from 'src/constants/path'
 import { Category } from 'src/types/category.type'
+import { NoUndefinedField } from 'src/types/utils.types'
+import { Schema, schema } from 'src/utils/rules'
 import { QueryConfig } from '../ProductList'
 
 interface Props {
   queryConfig: QueryConfig
   categories: Category[]
 }
+
+// type FormData = {
+//   price_min: string
+//   price_max: string
+// }
+
+type FormData = NoUndefinedField<Pick<Schema, 'price_max' | 'price_min'>>
+
+//* Note
+// Nếu có price_min và price_max thì price_max>= price_min
+// Còn không thì có price_min thì không có price_max và ngược lại
+
+// pick là chọn ra price_min và price_max
+const priceSchema = schema.pick(['price_min', 'price_max'])
+
 const AsideFilter = ({ queryConfig, categories }: Props) => {
   const { category } = queryConfig
+  const navigate = useNavigate()
+
+  // trigger nó sẽ làm form ta validate lại
+  const {
+    control,
+    handleSubmit,
+    trigger,
+    formState: { errors }
+  } = useForm<FormData>({
+    defaultValues: {
+      price_min: '',
+      price_max: ''
+    },
+    resolver: yupResolver(priceSchema),
+
+    // tắt chế độ auto focus vào input khi có lỗi (mặc định là true). Chế độ focus này hiệu nghiệm khi truyền ref còn ko truyền ref thì ko tự động focus vào đâu
+    shouldFocusError: false
+  })
+
+  const onSubmit = handleSubmit((data) => {
+    navigate({
+      pathname: path.home,
+      search: createSearchParams({
+        ...queryConfig,
+        price_max: data.price_max,
+        price_min: data.price_min
+      }).toString()
+    })
+  })
+
   return (
     <div className='py-4'>
       <Link
@@ -90,24 +140,59 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
       <div className='my-4 h-[1px] bg-gray-300' />
       <div className='my-5'>
         <div>Khoảng giá</div>
-        <form className='mt-2'>
+        <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            <Input
-              type='text'
-              className='grow'
-              name='from'
-              placeholder='₫ TỪ'
-              classNameInput='w-full rounded-sm border border-gray-300 p-1 outline-none focus:border-gray-500 focus:shadow-sm'
+            <Controller
+              control={control}
+              name='price_min'
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type='text'
+                    className='grow'
+                    placeholder='₫ TỪ'
+                    classNameInput='w-full rounded-sm border border-gray-300 p-1 outline-none focus:border-gray-500 focus:shadow-sm'
+                    onChange={(event) => {
+                      field.onChange(event)
+
+                      // price_min trigger price_max, price_max trigger price_min
+                      // trigger theo kiểu này nó validate hết cái form luôn trigger() còn trigger('price_min') thì nó chỉ validate cái price_min
+                      trigger('price_max')
+                    }}
+                    value={field.value}
+                    ref={field.ref}
+                    classNameError='hidden'
+                  />
+                )
+              }}
             />
+
             <div className='mx-2 mt-2 shrink-0'>-</div>
-            <Input
-              type='text'
-              className='grow'
-              name='to'
-              placeholder='₫ ĐẾN'
-              classNameInput='w-full rounded-sm border border-gray-300 p-1 outline-none focus:border-gray-500 focus:shadow-sm'
+            <Controller
+              control={control}
+              name='price_max'
+              render={({ field }) => {
+                return (
+                  <InputNumber
+                    type='text'
+                    className='grow'
+                    placeholder='₫ ĐẾN'
+                    classNameInput='w-full rounded-sm border border-gray-300 p-1 outline-none focus:border-gray-500 focus:shadow-sm'
+                    // có thể viết kiểu này ngắn gọn hơn thay vì  value={field.value}  ref={field.ref} đảm bảo chúng ta truyền ref và value vào
+                    {...field}
+                    onChange={(event) => {
+                      field.onChange(event)
+
+                      // trigger theo kiểu này nó validate hết cái form luôn trigger() còn trigger('price_min') thì nó chỉ validate cái price_min
+                      trigger('price_min')
+                    }}
+                    classNameError='hidden'
+                  />
+                )
+              }}
             />
           </div>
+          <div className='mt-1 min-h-[1.25rem] text-center text-sm text-red-600'>{errors.price_min?.message}</div>
           <Button className='flex w-full items-center justify-center bg-orange py-2 px-2 text-sm uppercase text-white hover:bg-orange/80'>
             Áp dụng
           </Button>

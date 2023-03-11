@@ -12,7 +12,8 @@ import { AppContext } from 'src/context/app.context'
 import { useContext } from 'react'
 import Button from 'src/components/Button'
 
-type FormData = Schema
+type FormData = Pick<Schema, 'email' | 'password' | 'confirm_password'>
+const registerSchema = schema.pick(['email', 'password', 'confirm_password'])
 const Register = () => {
   const {
     register,
@@ -20,7 +21,7 @@ const Register = () => {
     getValues,
     setError,
     formState: { errors }
-  } = useForm<FormData>({ resolver: yupResolver(schema) })
+  } = useForm<FormData>({ resolver: yupResolver(registerSchema) })
 
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
   const navigate = useNavigate()

@@ -61,6 +61,14 @@ export const getRules = (getValues?: UseFormGetValues<any>): Rules => ({
   }
 })
 
+function testPriceMinMax(this: yup.TestContext<yup.AnyObject>) {
+  const { price_min, price_max } = this.parent as { price_min: string; price_max: string }
+  if (price_min !== '' && price_max !== '') {
+    return Number(price_max) >= Number(price_min)
+  }
+  return price_min !== '' || price_max !== ''
+}
+
 export const schema = yup.object({
   email: yup
     .string()
@@ -79,7 +87,40 @@ export const schema = yup.object({
     .min(6, 'Dộ dài từ 6 - 160 ký tự')
     .max(160, 'Dộ dài từ 6 - 160 ký tự')
     // oneOf truyền vào array nó chỉ là 1 trong những giá trị này
-    .oneOf([yup.ref('password')], 'Nhập lại password không khớp')
+    .oneOf([yup.ref('password')], 'Nhập lại password không khớp'),
+  price_min: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+
+    // Khi ta return về true trong function test này có nghĩa là nó đã pass qua được bài test của ta. Nó không bị lỗi, còn nếu ta return false trong này thì nó ko pass qua được nó bị lỗi có massage: 'Giá không phù hợp'
+    // test: function (value) {
+    //   const price_min = value
+
+    //   // this.parent nó sẽ gọi ra object cha của price_min này (cha {price_min, price_max}})
+    //   const { price_max } = this.parent as { price_min: string; price_max: string }
+
+    //   // Nếu có giá trị của price_min và price_max
+    //   if (price_min !== '' && price_max !== '') {
+    //     return Number(price_max) >= Number(price_min)
+    //   }
+
+    //   return price_min !== '' || price_max !== ''
+    // }
+    test: testPriceMinMax
+  }),
+  price_max: yup.string().test({
+    name: 'price-not-allowed',
+    message: 'Giá không phù hợp',
+    // test: function (value) {
+    //   const price_max = value
+    //   const { price_min } = this.parent as { price_min: string; price_max: string }
+    //   if (price_min !== '' && price_max !== '') {
+    //     return Number(price_max) >= Number(price_min)
+    //   }
+    //   return price_min !== '' || price_max !== ''
+    // }
+    test: testPriceMinMax
+  })
 })
 
 // Yup khai báo kiểu thế nào thì ta có thể xuất ra một ỉnterface kiểu đó luôn
