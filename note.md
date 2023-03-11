@@ -78,3 +78,5 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 - Khi sử dụng gọi `register` thì nó tự generate cái ref rồi. Còn khi sử dụng Controller thì cần phải truyền ref để handle việc focus.
 
 - Có 1 cơ chế trong react-hook-form khi ta onChange 1 input nào đấy thì nó sẽ validate input đó thôi
+
+- onClick thằng eslint nó bắt thẻ html của chúng ta nên là 1 thẻ có thể click
