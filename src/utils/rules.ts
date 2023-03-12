@@ -120,7 +120,8 @@ export const schema = yup.object({
     //   return price_min !== '' || price_max !== ''
     // }
     test: testPriceMinMax
-  })
+  }),
+  name: yup.string().required('Tên sản phẩm là bắt buộc').trim()
 })
 
 // Yup khai báo kiểu thế nào thì ta có thể xuất ra một ỉnterface kiểu đó luôn

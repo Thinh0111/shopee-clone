@@ -59,17 +59,17 @@ const ProductDetail = () => {
 
     //* C1: Lấy offSetX, offSetY đơn giản khi chúng ta xử lý được bubble event
     // const { offsetX, offsetY } = event.nativeEvent
-    // image.style.width = naturalWidth + 'px'
-    // image.style.height = naturalHeight + 'px'
-    // const top = offsetY * (1 - naturalHeight / rect.height)
-    // const left = offsetX * (1 - naturalWidth / rect.width)
-    // image.style.maxWidth = 'unset'
-    // image.style.top = top + 'px'
-    // image.style.left = left + 'px'
 
     //* C2: Lấy offSetX, offSetY khi chúng ta ko xử lý được bubble event
     const offsetX = event.pageX - (rect.x + window.screenX)
     const offsetY = event.pageY - (rect.y + window.screenY)
+    image.style.width = naturalWidth + 'px'
+    image.style.height = naturalHeight + 'px'
+    const top = offsetY * (1 - naturalHeight / rect.height)
+    const left = offsetX * (1 - naturalWidth / rect.width)
+    image.style.maxWidth = 'unset'
+    image.style.top = top + 'px'
+    image.style.left = left + 'px'
   }
 
   const handleRemoveZoom = () => {

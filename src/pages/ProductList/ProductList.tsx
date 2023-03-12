@@ -1,41 +1,24 @@
-import React from 'react'
 import { useQuery } from 'react-query'
 import productApi from 'src/api/product.api'
 import Pagination from 'src/components/Pagination'
-import useQueryParams from 'src/hook/useQueryParams'
+
 import { ProductListConfig } from 'src/types/product.types'
 import AsideFilter from './components/AsideFilter'
 import Product from './components/Product'
 import SortProductList from './components/SortProductList'
-import { omitBy, isUndefined, identity } from 'lodash'
+
 import categoryApi from 'src/api/category.api'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
+import useQueryConfig from 'src/hook/useQueryConfig'
 
 export type QueryConfig = {
   [key in keyof ProductListConfig]: string
 }
 
 const ProductList = () => {
-  const queryParams: QueryConfig = useQueryParams()
   const navigate = useNavigate()
-
-  // loại bỏ những key nào nó thỏa mãn cái value của nó là undefined
-  const queryConfig: QueryConfig = omitBy(
-    {
-      page: queryParams.page || '1',
-      limit: queryParams.limit || '20',
-      sort_by: queryParams.sort_by,
-      exclude: queryParams.exclude,
-      name: queryParams.name,
-      order: queryParams.order,
-      price_max: queryParams.price_max,
-      price_min: queryParams.price_min,
-      rating_filter: queryParams.rating_filter,
-      category: queryParams.category
-    },
-    isUndefined
-  )
+  const queryConfig = useQueryConfig()
 
   const { data: productData } = useQuery({
     // truyền queryParams trên queryKey này để khi queryParams thay đổi thì nó sẽ gọi lại API
