@@ -1,11 +1,15 @@
 import DOMPurify from 'dompurify'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useQuery } from 'react-query'
+import { useMutation, useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import productApi from 'src/api/product.api'
+import purchaseApi from 'src/api/purchase.api'
 import InputNumber from 'src/components/InputNumber'
 import ProductRating from 'src/components/ProductRating'
 import QuantityController from 'src/components/QuantityController'
+import { purchasesStatus } from 'src/constants/purchase'
+import { queryClient } from 'src/main'
 import { Product as ProductType, ProductListConfig } from 'src/types/product.types'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import Product from '../ProductList/components/Product'
@@ -40,6 +44,8 @@ const ProductDetail = () => {
     // Nếu staleTime bên productList thôi thì nó ko có hiệu nghiệm
     staleTime: 3 * 60 * 1000
   })
+
+  const addToCartMutation = useMutation(purchaseApi.addToCart)
 
   const imageRef = useRef<HTMLImageElement>(null)
 
@@ -95,6 +101,21 @@ const ProductDetail = () => {
 
   const handleBuyCount = (value: number) => {
     setBuyCount(value)
+  }
+
+  const addToCart = () => {
+    addToCartMutation.mutate(
+      { buy_count: buyCount, product_id: product?._id as string },
+      {
+        onSuccess: (data) => {
+          toast.success(data.data.message, { autoClose: 2000 })
+
+          //* invalidateQueries():Phương thức này được sử dụng để đánh dấu các truy vấn dữ liệu cần được thực hiện lại.
+          // Điều này thường được sử dụng khi có thay đổi dữ liệu (như thêm hoặc xóa một mục hàng) và ta muốn đảm bảo rằng truy vấn dữ liệu mới nhất sẽ được sử dụng để cập nhật giao diện người dùng. Khi gọi phương thức invalidateQueries(), React Query sẽ thực hiện lại truy vấn mới nhất và cập nhật lại kết quả cho component.
+          queryClient.invalidateQueries({ queryKey: ['purchases', { status: purchasesStatus.inCart }] })
+        }
+      }
+    )
   }
 
   // Nếu ko có product thì return null nó sẽ ko nhảy xuống đoạn dưới
@@ -203,7 +224,10 @@ const ProductDetail = () => {
                 <div className='ml-6 text-sm text-gray-500'>{product.quantity} Sản phẩm có sẵn</div>
               </div>
               <div className='mt-8 flex items-center'>
-                <button className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'>
+                <button
+                  className='flex h-12 items-center justify-center rounded-sm border border-orange bg-orange/10 px-5 capitalize text-orange shadow-sm hover:bg-orange/5'
+                  onClick={addToCart}
+                >
                   <svg
                     enableBackground='new 0 0 15 15'
                     viewBox='0 0 15 15'
