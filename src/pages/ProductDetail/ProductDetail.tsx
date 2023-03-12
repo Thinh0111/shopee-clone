@@ -1,5 +1,5 @@
 import DOMPurify from 'dompurify'
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import productApi from 'src/api/product.api'
@@ -22,6 +22,8 @@ const ProductDetail = () => {
     () => (product ? product.images.slice(...currentIndexImage) : []),
     [product, currentIndexImage]
   )
+
+  const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     if (product && product.images.length > 0) {
@@ -46,6 +48,33 @@ const ProductDetail = () => {
     }
   }
 
+  const handleZoom = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const image = imageRef.current as HTMLImageElement
+    // lấy chiều cao chiều rộng của thẻ div
+    const rect = event.currentTarget.getBoundingClientRect()
+
+    // width, height của gốc của ảnh
+    const { naturalWidth, naturalHeight } = image
+
+    //* C1: Lấy offSetX, offSetY đơn giản khi chúng ta xử lý được bubble event
+    // const { offsetX, offsetY } = event.nativeEvent
+    // image.style.width = naturalWidth + 'px'
+    // image.style.height = naturalHeight + 'px'
+    // const top = offsetY * (1 - naturalHeight / rect.height)
+    // const left = offsetX * (1 - naturalWidth / rect.width)
+    // image.style.maxWidth = 'unset'
+    // image.style.top = top + 'px'
+    // image.style.left = left + 'px'
+
+    //* C2: Lấy offSetX, offSetY khi chúng ta ko xử lý được bubble event
+    const offsetX = event.pageX - (rect.x + window.screenX)
+    const offsetY = event.pageY - (rect.y + window.screenY)
+  }
+
+  const handleRemoveZoom = () => {
+    imageRef.current?.removeAttribute('style')
+  }
+
   // Nếu ko có product thì return null nó sẽ ko nhảy xuống đoạn dưới
   if (!product) return null
   return (
@@ -54,11 +83,16 @@ const ProductDetail = () => {
         <div className='bg-white p-4 shadow'>
           <div className='grid grid-cols-12 gap-9'>
             <div className='col-span-5'>
-              <div className='relative w-full pt-[100%] shadow'>
+              <div
+                className='relative w-full cursor-zoom-in overflow-hidden pt-[100%] shadow'
+                onMouseMove={handleZoom}
+                onMouseLeave={handleRemoveZoom}
+              >
                 <img
                   src={activeImage}
                   alt={product.name}
-                  className='absolute top-0 left-0 h-full w-full bg-white object-cover'
+                  className='pointer-events-none absolute top-0 left-0 h-full w-full bg-white object-cover'
+                  ref={imageRef}
                 />
               </div>
               <div className='relative mt-4 grid grid-cols-5 gap-1'>
