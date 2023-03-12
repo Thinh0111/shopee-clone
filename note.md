@@ -80,3 +80,7 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 - Có 1 cơ chế trong react-hook-form khi ta onChange 1 input nào đấy thì nó sẽ validate input đó thôi
 
 - onClick thằng eslint nó bắt thẻ html của chúng ta nên là 1 thẻ có thể click
+
+- `relative w-full pt-[100%]` kỹ thuật cho chiều rộng và chiều cao bằng nhau.
+
+- dompurify: giúp loại bỏ đi javascript trong chuỗi string chống tấn công XSS
