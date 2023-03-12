@@ -40,7 +40,9 @@ const ProductList = () => {
     },
 
     // khi mình chuyển trang nó bị giựt, data ban đầu là undefined sau mới có data. Khi chuyển trang useQuery sẽ gọi lại API và data bị xét lại là undefined. Thì ban đầu có dữ liệu mà nó bị undefined nên nó bị giựt. Để data ko bị mất đi từ data cũ (ta chỉ cập nhập data mới thôi) ta sử dụng keepPreviousData: true là đc nó chỉ cập nhật lại thôi từ data cũ nó ko reset lại undefined
-    keepPreviousData: true
+    keepPreviousData: true,
+
+    staleTime: 3 * 60 * 1000
   })
 
   const { data: categoriesData } = useQuery({

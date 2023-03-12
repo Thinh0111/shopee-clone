@@ -5,8 +5,9 @@ import { useParams } from 'react-router-dom'
 import productApi from 'src/api/product.api'
 import InputNumber from 'src/components/InputNumber'
 import ProductRating from 'src/components/ProductRating'
-import { Product } from 'src/types/product.types'
+import { Product as ProductType, ProductListConfig } from 'src/types/product.types'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
+import Product from '../ProductList/components/Product'
 
 const ProductDetail = () => {
   const { nameId } = useParams()
@@ -24,6 +25,20 @@ const ProductDetail = () => {
     [product, currentIndexImage]
   )
 
+  const queryConfig: ProductListConfig = { limit: '20', page: '1', category: product?.category._id }
+  const { data: productData } = useQuery({
+    queryKey: ['products', queryConfig],
+    queryFn: () => {
+      return productApi.getProduct(queryConfig)
+    },
+
+    // khi product có data thì query ta mới đc gọi
+    enabled: Boolean(product),
+
+    // Nếu staleTime bên productList thôi thì nó ko có hiệu nghiệm
+    staleTime: 3 * 60 * 1000
+  })
+
   const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
@@ -38,7 +53,7 @@ const ProductDetail = () => {
   }
 
   const next = () => {
-    if (currentIndexImage[1] < (product as Product)?.images.length) {
+    if (currentIndexImage[1] < (product as ProductType)?.images.length) {
       setCurrentIndexImage((prev) => [prev[0] + 1, prev[1] + 1])
     }
   }
@@ -256,17 +271,34 @@ const ProductDetail = () => {
           </div>
         </div>
       </div>
-      <div className='container'>
-        <div className='mt-8 bg-white p-4 shadow'>
-          <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
-          <div className='loading-loose mx-4 mt-12 mb-4 text-sm'>
-            <div
-              // dompurify: giúp loại bỏ đi javascript trong chuỗi string chống tấn công XSS
-              dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(product.description)
-              }}
-            ></div>
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='mt-8 bg-white p-4 shadow'>
+            <div className='rounded bg-gray-50 p-4 text-lg capitalize text-slate-700'>Mô tả sản phẩm</div>
+            <div className='loading-loose mx-4 mt-12 mb-4 text-sm'>
+              <div
+                // dompurify: giúp loại bỏ đi javascript trong chuỗi string chống tấn công XSS
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(product.description)
+                }}
+              ></div>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <div className='mt-8'>
+        <div className='container'>
+          <div className='uppercase text-gray-400'>CÓ THỂ BẠN CŨNG THÍCH</div>
+          {productData && (
+            <div className='mt-6 grid grid-cols-2 gap-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'>
+              {productData.data.data.products.map((product) => (
+                <div className='col-span-1' key={product._id}>
+                  <Product product={product} />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
