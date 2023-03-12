@@ -94,3 +94,14 @@ export const removeSpecialCharacter = (str: string) =>
   // eslint-disable-next-line no-useless-escape
   str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, '')
 ```
+
+Sữa lỗi Tailwindcss Extension không gợi ý class
+
+Các bạn thêm đoạn code này vào settings.json của VS Code
+
+```json
+{
+  //...
+  "tailwindCSS.experimental.classRegex": ["[a-zA-Z]*class[a-zA-Z]*='([^']+)'"]
+}
+```
