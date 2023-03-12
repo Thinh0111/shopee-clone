@@ -84,3 +84,13 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 - `relative w-full pt-[100%]` kỹ thuật cho chiều rộng và chiều cao bằng nhau.
 
 - dompurify: giúp loại bỏ đi javascript trong chuỗi string chống tấn công XSS
+
+### Ghi chú code
+
+Code xóa các ký tự đặc biệt trên bàn phím
+
+```js
+export const removeSpecialCharacter = (str: string) =>
+  // eslint-disable-next-line no-useless-escape
+  str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|-|{|}|\||\\/g, '')
+```
