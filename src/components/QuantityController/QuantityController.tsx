@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InputNumber, { InputNumberProps } from '../InputNumber'
 
 interface Props extends InputNumberProps {
@@ -18,6 +18,8 @@ const QuantityController = ({
   value,
   ...rest
 }: Props) => {
+  const [localValue, setLocalValue] = useState<number>(Number(value || 0))
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let _value = Number(e.target.value)
 
@@ -31,24 +33,30 @@ const QuantityController = ({
 
     // Nếu có onType thì mình mới gọi và truyền value tránh lỗi
     onType && onType(_value)
+
+    setLocalValue(_value)
   }
 
   const increase = () => {
-    let _value = Number(value) + 1
+    let _value = Number(value || localValue) + 1
     if (max !== undefined && _value > max) {
       _value = max
     }
 
     onIncrease && onIncrease(_value)
+
+    setLocalValue(_value)
   }
 
   const decrease = () => {
-    let _value = Number(value) - 1
+    let _value = Number(value || localValue) - 1
     if (_value < 1) {
       _value = 1
     }
 
     onDecrease && onDecrease(_value)
+
+    setLocalValue(_value)
   }
 
   return (
@@ -73,7 +81,7 @@ const QuantityController = ({
         classNameError='hidden'
         classNameInput='h-8 w-14 border-t border-b border-gray-300 p-1 text-center outline-none'
         onChange={handleChange}
-        value={value}
+        value={value || localValue}
         {...rest}
       />
       <button
