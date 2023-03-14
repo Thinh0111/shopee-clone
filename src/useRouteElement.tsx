@@ -4,6 +4,7 @@ import path from './constants/path'
 import { AppContext } from './context/app.context'
 import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
+import Cart from './pages/Cart'
 import Login from './pages/Login'
 import ProductDetail from './pages/ProductDetail'
 import ProductList from './pages/ProductList'
@@ -35,6 +36,14 @@ const useRouteElement = () => {
           element: (
             <MainLayout>
               <Profile />
+            </MainLayout>
+          )
+        },
+        {
+          path: path.card,
+          element: (
+            <MainLayout>
+              <Cart />
             </MainLayout>
           )
         }
