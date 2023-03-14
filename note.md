@@ -14,6 +14,10 @@
 
 - khi nhấn submit cái form của ta ko đúng thì function handleSubmit ko chạy. Thì có handleSubmit khi hover thì thấy nó nhận vào 2 cái 1 cái là onValid (là 1 callback nó chạy khi form nó đúng), onInvalid(nó chạy khi form ta ko đúng, cái này là 1 option thôi có cũng đc ko có cũng đc)
 
+### useController
+
+- nó giúp chúng ta rút ngắn lại đoạn code liên quan đến `controller` của của react-hook-form nhưng nó cũng có khuyết điểm liên quan đến `useController` là khi bạn dùng `useController` vào 1 component nào đấy ví dụ `InputNumber` thì cái `InputNumber` này nó chỉ dùng được vs react-hook-form thôi (có nghĩa sử dụng tray, dùng thuần react nó ko có đc). Trong một số trường hợp nhất đinhj chỉ dùng react-hook-form có thể dùng thằng này ngắn hơn một tý so với `Controller` này. (trong project này có 2 input là `Input` dùng cho mọi trường hợp và `InputV2` chỉ sử dụng được cho react-hook-form vì nó gắn liền với `control trong react-hook-form` thôi)
+
 ## Format lỗi
 
 ### Trong trường hợp lỗi 422 (thường do form) hoặc lỗi do truyền query / params bị sai
@@ -103,5 +107,57 @@ Các bạn thêm đoạn code này vào settings.json của VS Code
 {
   //...
   "tailwindCSS.experimental.classRegex": ["[a-zA-Z]*class[a-zA-Z]*='([^']+)'"]
+}
+```
+
+### TS
+
+```ts
+function Hexa<T extends string>(props: { name: T; lastname: T }) {
+  return null
+}
+```
+
+- khi bạn extends thì nó gợi ý cho bạn truyền vào chuỗi
+
+```ts
+function App() {
+  return <Hexa name='hello' lastName='world' />
+}
+```
+
+### TS
+
+```ts
+type Gen<TFunc> = {
+  person: {
+    getName: TFunc
+  }
+}
+```
+
+- muốn lastName sẽ có giá trị return function của getName
+- ReturnType nó yêu cầu là 1 function nhưng mà `TFuc` khi khai báo chỗ generic type nó có thể là string, number (string, number truyền vào ReturnType ko được nên chỗ này phải `extends nó là 1 function return về string` )
+
+```ts
+function Hexa<TFunc extends () => string>(props: { person: Gen<TFunc>; lastName: ReturnType<TFunc> }) {
+  return null
+}
+```
+
+```ts
+const handleName: () => 'World' = () => 'World'
+```
+
+```ts
+
+```
+
+- lastName mong muốn gợi ý là 'World' (giá trị return function getName)
+- Cái kiểu propB nó được suy ra từ cái kiểu của propA
+
+```ts
+function App() {
+  return <Hexa person={{ getName: handleName }} lastName='World' />
 }
 ```

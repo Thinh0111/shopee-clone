@@ -7,6 +7,7 @@ import { createSearchParams, Link, useNavigate } from 'react-router-dom'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import InputNumber from 'src/components/InputNumber'
+import InputV2 from 'src/components/InputV2'
 import path from 'src/constants/path'
 import { Category } from 'src/types/category.type'
 import { NoUndefinedField } from 'src/types/utils.types'
@@ -152,7 +153,7 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
         <div>Khoảng giá</div>
         <form className='mt-2' onSubmit={onSubmit}>
           <div className='flex items-start'>
-            <Controller
+            {/* <Controller
               control={control}
               name='price_min'
               render={({ field }) => {
@@ -174,6 +175,20 @@ const AsideFilter = ({ queryConfig, categories }: Props) => {
                     classNameError='hidden'
                   />
                 )
+              }}
+            /> */}
+
+            {/* Ta không cần gọi field.onChange vì bên InputV2 có rồi khi gọi nó thì nó tự cập nhật*/}
+            <InputV2
+              type='text'
+              control={control}
+              name='price_min'
+              className='grow'
+              placeholder='đ TỪ'
+              classNameInput='w-full rounded-sm border border-gray-300 p-1 outline-none focus:border-gray-500 focus:shadow-sm'
+              classNameError='hidden'
+              onChange={() => {
+                trigger('price_max')
               }}
             />
 
