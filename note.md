@@ -93,6 +93,10 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - `retry` được sử dụng để thực hiện lại một query bị lỗi hoặc thất bại. Khi một query thất bại, `retry` sẽ cố gắng thực hiện lại query đó với một khoảng thời gian giữa các lần thử lại được đặt trước.
 
+- EventTarget() là một constructor function trong JavaScript được sử dụng để tạo ra một đối tượng Event Target, đây là một đối tượng có khả năng phát ra và lắng nghe các sự kiện (events).
+
+- dispatchEvent là một phương thức của đối tượng EventTarget trong JavaScript được sử dụng để phát ra một sự kiện (event).
+
 ### Ghi chú code
 
 Code xóa các ký tự đặc biệt trên bàn phím

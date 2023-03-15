@@ -11,6 +11,8 @@ import ProductDetail from './pages/ProductDetail'
 import ProductList from './pages/ProductList'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
+import UserLayout from './pages/User/layouts/UserLayout'
+import ChangePassword from './pages/User/page/ChangePassword'
 
 // isAuthenticated = true là người dùng login còn false là người dùng chưa login
 function ProtectedRoute() {
@@ -32,21 +34,31 @@ const useRouteElement = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          // ko cần /profile react-router-dom nó tự hiểu
-          path: path.profile,
-          element: (
-            <MainLayout>
-              <Profile />
-            </MainLayout>
-          )
-        },
-        {
           path: path.card,
           element: (
             <CartLayout>
               <Cart />
             </CartLayout>
           )
+        },
+        {
+          path: path.user,
+          element: (
+            <MainLayout>
+              <UserLayout />
+            </MainLayout>
+          ),
+          children: [
+            // Khi mà nói vào path /user/profile nó sẽ đi qua path /user nó nhảy vào khu vực <MainLayout><UserLayout></MainLayout> trong UserLayout có dùng Outlet nên là đưa Profile hay ChangePassword vào thay thế khu vực Outlet trong UserLayout
+            {
+              path: path.profile,
+              element: <Profile />
+            },
+            {
+              path: path.changePassword,
+              element: <ChangePassword />
+            }
+          ]
         }
       ]
     },
