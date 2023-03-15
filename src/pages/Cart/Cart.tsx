@@ -90,11 +90,11 @@ const Cart = () => {
         }) || []
       )
     })
-  }, [purchasesInCart, choosenPurchaseIdFromLocation])
+  }, [purchasesInCart, choosenPurchaseIdFromLocation, setExtendedPurchases])
 
   useEffect(() => {
     return () => {
-      // replaceState() của đối tượng window.history để thay đổi trạng thái của lịch sử duyệt web của trang.
+      // replaceState() của đối tượng window.history để thay đổi trạng thái của lịch sử duyệt web của trang. ( purchaseId tu location.state về null)
       history.replaceState(null, '')
     }
   }, [])
@@ -164,7 +164,6 @@ const Cart = () => {
           buy_count: purchase.buy_count
         }
       })
-      console.log('body', body)
       buyProductMutation.mutate(body)
     }
   }

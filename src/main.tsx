@@ -9,10 +9,13 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './context/app.context'
 
-export const queryClient = new QueryClient({
+const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+
+      // `retry` được sử dụng để thực hiện lại một query bị lỗi hoặc thất bại. Ở đây khi bị lỗi ko cho gọi lại
+      retry: 0
     }
   }
 })

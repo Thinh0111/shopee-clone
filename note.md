@@ -91,6 +91,8 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - nếu lưu các state checked này vào trong component cart mà chúng ta rời khỏi component cart thì cái state nó reset lại ngay. Nên ta cần phải lưu nó vào trong redux, globalState khi nào F5 lại nó mới biến mất. (nên lưu vào contextAPI)
 
+- `retry` được sử dụng để thực hiện lại một query bị lỗi hoặc thất bại. Khi một query thất bại, `retry` sẽ cố gắng thực hiện lại query đó với một khoảng thời gian giữa các lần thử lại được đặt trước.
+
 ### Ghi chú code
 
 Code xóa các ký tự đặc biệt trên bàn phím

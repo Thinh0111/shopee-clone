@@ -1,6 +1,6 @@
 import DOMPurify from 'dompurify'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { useMutation, useQuery } from 'react-query'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import productApi from 'src/api/product.api'
@@ -10,7 +10,6 @@ import ProductRating from 'src/components/ProductRating'
 import QuantityController from 'src/components/QuantityController'
 import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
-import { queryClient } from 'src/main'
 import { Product as ProductType, ProductListConfig } from 'src/types/product.types'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import Product from '../ProductList/components/Product'
@@ -23,6 +22,7 @@ const ProductDetail = () => {
     queryFn: () => productApi.getProductDetail(id as string)
   })
 
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const [buyCount, setBuyCount] = useState<number>(1)
   const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])
