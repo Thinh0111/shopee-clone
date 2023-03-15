@@ -161,3 +161,20 @@ function App() {
   return <Hexa person={{ getName: handleName }} lastName='World' />
 }
 ```
+
+### \_.keyBy in lodash
+
+```js
+var array = [
+  { dir: 'left', code: 97 },
+  { dir: 'right', code: 100 }
+]
+
+_.keyBy(array, function (o) {
+  return String.fromCharCode(o.code)
+})
+// => { 'a': { 'dir': 'left', 'code': 97 }, 'd': { 'dir': 'right', 'code': 100 } }
+
+_.keyBy(array, 'dir')
+// => { 'left': { 'dir': 'left', 'code': 97 }, 'right': { 'dir': 'right', 'code': 100 } }
+```
