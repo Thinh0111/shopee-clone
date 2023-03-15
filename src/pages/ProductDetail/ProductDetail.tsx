@@ -1,13 +1,14 @@
 import DOMPurify from 'dompurify'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { useMutation, useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import productApi from 'src/api/product.api'
 import purchaseApi from 'src/api/purchase.api'
 import InputNumber from 'src/components/InputNumber'
 import ProductRating from 'src/components/ProductRating'
 import QuantityController from 'src/components/QuantityController'
+import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
 import { queryClient } from 'src/main'
 import { Product as ProductType, ProductListConfig } from 'src/types/product.types'
@@ -22,6 +23,7 @@ const ProductDetail = () => {
     queryFn: () => productApi.getProductDetail(id as string)
   })
 
+  const navigate = useNavigate()
   const [buyCount, setBuyCount] = useState<number>(1)
   const [currentIndexImage, setCurrentIndexImage] = useState([0, 5])
   const [activeImage, setActiveImage] = useState('')
@@ -116,6 +118,19 @@ const ProductDetail = () => {
         }
       }
     )
+  }
+
+  const buyNow = async () => {
+    const res = await addToCartMutation.mutateAsync({ buy_count: buyCount, product_id: product?._id as string })
+
+    const purchase = res.data.data
+
+    // chuyển state purchaseId sang trang card
+    navigate(path.card, {
+      state: {
+        purchaseId: purchase._id
+      }
+    })
   }
 
   // Nếu ko có product thì return null nó sẽ ko nhảy xuống đoạn dưới
@@ -269,7 +284,10 @@ const ProductDetail = () => {
                   </svg>
                   Thêm vào giỏ hàng
                 </button>
-                <button className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'>
+                <button
+                  className='ml-4 flex h-12 min-w-[5rem] items-center justify-center rounded-sm bg-orange px-5 capitalize text-white shadow-sm outline-none hover:bg-orange/90'
+                  onClick={buyNow}
+                >
                   Mua ngay
                 </button>
               </div>

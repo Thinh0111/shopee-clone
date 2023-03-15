@@ -89,6 +89,8 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - dompurify: giúp loại bỏ đi javascript trong chuỗi string chống tấn công XSS
 
+- nếu lưu các state checked này vào trong component cart mà chúng ta rời khỏi component cart thì cái state nó reset lại ngay. Nên ta cần phải lưu nó vào trong redux, globalState khi nào F5 lại nó mới biến mất. (nên lưu vào contextAPI)
+
 ### Ghi chú code
 
 Code xóa các ký tự đặc biệt trên bàn phím

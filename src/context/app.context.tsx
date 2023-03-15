@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react'
+import { ExtendedPurchase } from 'src/types/purchase.types'
 import { User } from 'src/types/user.type'
 import { getAccessTokenFromLocalStorage, getProfileFromLocalStorage } from 'src/utils/auth'
 
@@ -8,6 +9,8 @@ interface AppContextInterface {
   setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>
   profile: User | null
   setProfile: React.Dispatch<React.SetStateAction<User | null>>
+  extendedPurchases: ExtendedPurchase[]
+  setExtendedPurchases: React.Dispatch<React.SetStateAction<ExtendedPurchase[]>>
 }
 
 const initialAppContext: AppContextInterface = {
@@ -15,7 +18,9 @@ const initialAppContext: AppContextInterface = {
   isAuthenticated: Boolean(getAccessTokenFromLocalStorage()),
   setIsAuthenticated: () => null,
   profile: getProfileFromLocalStorage(),
-  setProfile: () => null
+  setProfile: () => null,
+  extendedPurchases: [],
+  setExtendedPurchases: () => null
 }
 
 // initialAppContext là giá trị khởi tạo khi ta sử dụng createContext ta bắt buộc truyền giá trị khởi tạo. Khi nào giá trị này được sử dụng khi mà chúng ta ko truyền vào Provider cái value thì giá trị này được sử dụng
@@ -23,9 +28,14 @@ export const AppContext = createContext<AppContextInterface>(initialAppContext)
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(initialAppContext.isAuthenticated)
+  const [extendedPurchases, setExtendedPurchases] = React.useState<ExtendedPurchase[]>(
+    initialAppContext.extendedPurchases
+  )
   const [profile, setProfile] = useState<User | null>(initialAppContext.profile)
   return (
-    <AppContext.Provider value={{ isAuthenticated, setIsAuthenticated, profile, setProfile }}>
+    <AppContext.Provider
+      value={{ isAuthenticated, setIsAuthenticated, profile, setProfile, extendedPurchases, setExtendedPurchases }}
+    >
       {children}
     </AppContext.Provider>
   )
