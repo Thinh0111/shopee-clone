@@ -97,6 +97,33 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - dispatchEvent là một phương thức của đối tượng EventTarget trong JavaScript được sử dụng để phát ra một sự kiện (event).
 
+- type cho button trong form vì mặc định 1 cái button trong cái form mặc định là submit. Phải quy định cho chặt chẽ ko quy định upload cái ảnh nó submit cái form.
+
+- nếu trong tương lai cái UserSchema có 30 field, FormData của em chỉ cần có 5 field thôi, em mà dùng Omit thì em Omit 25 field à. Mỗi lần cập nhật UserSchema, em lại phải qua cập nhật FormData chứ k là nó bị dư field
+
+- defaultValues: chỉ xét 1 lần duy nhất khi component của bạn render thôi. Mà lúc component render lần đầu tiên thì cái profile làm gì có. Profile lấy ra từ useQuery nó cần phải có vài giây getProfile nên profile ko lấy được. Trừ khi các bạn sử dụng useContext có sẵn truyền props có sẵn thì chỗ defaultValues mới có không thì chỗ đó undefined. Nên cần dùng useEffect để biết đc khi nào getProfile thành công thì khi thành công ta mới xét vào form
+
+- range(1,32) thì nó generate ra 1 mảng từ 1 đến 31
+
+```js
+const {
+  register,
+  control,
+  formState: { errors },
+  handleSubmit,
+  setValue,
+  watch,
+  setError
+} = useForm <
+FormData >
+{
+  defaultValues: {
+    name: profile.data.data.name | ''
+  },
+  resolver: yupResolver(profileSchema)
+}
+```
+
 ### Ghi chú code
 
 Code xóa các ký tự đặc biệt trên bàn phím
