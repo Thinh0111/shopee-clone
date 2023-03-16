@@ -18,6 +18,10 @@
 
 - nó giúp chúng ta rút ngắn lại đoạn code liên quan đến `controller` của của react-hook-form nhưng nó cũng có khuyết điểm liên quan đến `useController` là khi bạn dùng `useController` vào 1 component nào đấy ví dụ `InputNumber` thì cái `InputNumber` này nó chỉ dùng được vs react-hook-form thôi (có nghĩa sử dụng tray, dùng thuần react nó ko có đc). Trong một số trường hợp nhất đinhj chỉ dùng react-hook-form có thể dùng thằng này ngắn hơn một tý so với `Controller` này. (trong project này có 2 input là `Input` dùng cho mọi trường hợp và `InputV2` chỉ sử dụng được cho react-hook-form vì nó gắn liền với `control trong react-hook-form` thôi)
 
+### useFormContext
+
+- useFormContext được sử dụng trong những trường hợp cái form mình lớn và nó phức tạp nó có nhiều component trong đấy. Mã những component lớn đấy ta ko thể tách ra thành những component đơn giản.
+
 ## Format lỗi
 
 ### Trong trường hợp lỗi 422 (thường do form) hoặc lỗi do truyền query / params bị sai
