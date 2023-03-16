@@ -95,7 +95,7 @@ const NavHeader = () => {
           >
             <div className='mr-2 h-6 w-6 flex-shrink-0'>
               <img
-                src='https://i.pinimg.com/564x/ee/cd/5a/eecd5a18e5fb6659f17e58cd8fe6f634.jpg'
+                src={profile?.avatar || 'https://i.pinimg.com/564x/a3/a1/c2/a3a1c2915576ef3f812bcb062c5340bb.jpg'}
                 alt='avatar'
                 className='h-full w-full rounded-full object-cover'
               />

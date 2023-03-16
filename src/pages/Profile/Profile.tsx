@@ -1,11 +1,14 @@
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { useMutation, useQuery } from 'react-query'
+import { toast } from 'react-toastify'
 import userApi from 'src/api/user.api'
 import Button from 'src/components/Button'
 import Input from 'src/components/Input'
 import InputNumber from 'src/components/InputNumber'
+import { AppContext } from 'src/context/app.context'
+import { setProfileToLocalStorage } from 'src/utils/auth'
 import { userSchema, UserSchema } from 'src/utils/rules'
 import DateSelect from '../User/components/DateSelect'
 
@@ -15,7 +18,8 @@ type FormData = Pick<UserSchema, 'name' | 'address' | 'phone' | 'date_of_birth' 
 const profileSchema = userSchema.pick(['name', 'address', 'phone', 'date_of_birth', 'avatar'])
 
 export default function Profile() {
-  const { data: profileData } = useQuery({
+  const { setProfile } = useContext(AppContext)
+  const { data: profileData, refetch } = useQuery({
     queryKey: ['profile'],
 
     // khai báo như thế nào trả cho nó 1 cái callback mà callback nó gọi cái userApi.getProfile() trả khác gì đưa function vào ở dưới thì nó cũng đảm bảo là 1 callback
@@ -30,7 +34,6 @@ export default function Profile() {
     formState: { errors },
     handleSubmit,
     setValue,
-    watch,
     setError
   } = useForm<FormData>({
     defaultValues: {
@@ -56,12 +59,13 @@ export default function Profile() {
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data)
-    // await updateProfileMutation.mutateAsync({})
+    const res = await updateProfileMutation.mutateAsync({ ...data, date_of_birth: data.date_of_birth?.toISOString() })
+    setProfile(res.data.data)
+    setProfileToLocalStorage(res.data.data)
+    // gọi lại api để lấy data mới nhất
+    refetch()
+    toast.success(res.data.message)
   })
-
-  const value = watch()
-
-  // console.log(value, errors)
 
   return (
     <div className='rounded-sm bg-white px-2 pb-10 shadow md:px-7 md:pb-20'>
