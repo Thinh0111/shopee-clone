@@ -5,6 +5,7 @@ import authApi from 'src/api/auth.api'
 import path from 'src/constants/path'
 import { purchasesStatus } from 'src/constants/purchase'
 import { AppContext } from 'src/context/app.context'
+import { getAvatarUrl } from 'src/utils/utils'
 import Popover from '../Popover'
 
 const NavHeader = () => {
@@ -95,7 +96,7 @@ const NavHeader = () => {
           >
             <div className='mr-2 h-6 w-6 flex-shrink-0'>
               <img
-                src={profile?.avatar || 'https://i.pinimg.com/564x/a3/a1/c2/a3a1c2915576ef3f812bcb062c5340bb.jpg'}
+                src={getAvatarUrl(profile?.avatar)}
                 alt='avatar'
                 className='h-full w-full rounded-full object-cover'
               />

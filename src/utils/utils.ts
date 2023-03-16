@@ -2,6 +2,7 @@ import { AxiosError } from 'axios'
 /* eslint-disable import/no-named-as-default-member */
 import axios from 'axios'
 import HttpStatusCode from 'src/constants/httpStatusCode.enum'
+import config from 'src/constants/config'
 
 // error: unknown là ta chưa biết kiểu error này là gì cả. Sau khi chạy function này thì error chuyển về 1 type nhất định
 // Này là những cú pháp type predicate
@@ -48,3 +49,9 @@ export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split('-i,')
   return arr[arr.length - 1]
 }
+
+// Nếu có avatar thì lấy avatar ko thì lấy ảnh mặc định
+export const getAvatarUrl = (avatarName?: string) =>
+  avatarName
+    ? `${config.baseUrl}images/${avatarName}`
+    : 'https://i.pinimg.com/564x/a3/a1/c2/a3a1c2915576ef3f812bcb062c5340bb.jpg'

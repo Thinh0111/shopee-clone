@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import path from 'src/constants/path'
 import { AppContext } from 'src/context/app.context'
+import { getAvatarUrl } from 'src/utils/utils'
 
 const UserSideNav = () => {
   const { profile } = useContext(AppContext)
@@ -9,11 +10,7 @@ const UserSideNav = () => {
     <div>
       <div className='flex items-center border-b border-b-gray-200 py-4'>
         <Link to={path.profile} className='h-12 w-12 flex-shrink-0 overflow-hidden rounded-full border border-black/10'>
-          <img
-            src={profile?.avatar || 'https://i.pinimg.com/564x/a3/a1/c2/a3a1c2915576ef3f812bcb062c5340bb.jpg'}
-            alt=''
-            className='h-full w-full object-cover'
-          />
+          <img src={getAvatarUrl(profile?.avatar)} alt='' className='h-full w-full object-cover' />
         </Link>
         <div className='flex-grow pl-4'>
           <div className='mb-1 truncate font-semibold text-gray-600'>{profile?.name}</div>
