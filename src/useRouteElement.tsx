@@ -13,6 +13,7 @@ import Profile from './pages/Profile'
 import Register from './pages/Register'
 import UserLayout from './pages/User/layouts/UserLayout'
 import ChangePassword from './pages/User/page/ChangePassword'
+import HistoryPurchase from './pages/User/page/HistoryPurchase'
 
 // isAuthenticated = true là người dùng login còn false là người dùng chưa login
 function ProtectedRoute() {
@@ -57,6 +58,10 @@ const useRouteElement = () => {
             {
               path: path.changePassword,
               element: <ChangePassword />
+            },
+            {
+              path: path.historyPurchase,
+              element: <HistoryPurchase />
             }
           ]
         }
