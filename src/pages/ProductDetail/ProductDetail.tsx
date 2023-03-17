@@ -13,9 +13,12 @@ import { purchasesStatus } from 'src/constants/purchase'
 import { Product as ProductType, ProductListConfig } from 'src/types/product.types'
 import { formatCurrency, formatNumberToSocialStyle, getIdFromNameId, rateSale } from 'src/utils/utils'
 import Product from '../ProductList/components/Product'
+import { useTranslation } from 'react-i18next'
 
 const ProductDetail = () => {
+  const { t } = useTranslation(['product'])
   const { nameId } = useParams()
+
   const id = getIdFromNameId(nameId as string)
   const { data: productDetailData } = useQuery({
     queryKey: ['product', id],
@@ -236,7 +239,9 @@ const ProductDetail = () => {
                   value={buyCount}
                   max={product.quantity}
                 />
-                <div className='ml-6 text-sm text-gray-500'>{product.quantity} Sản phẩm có sẵn</div>
+                <div className='ml-6 text-sm text-gray-500'>
+                  {product.quantity} {t('product:available')}
+                </div>
               </div>
               <div className='mt-8 flex items-center'>
                 <button

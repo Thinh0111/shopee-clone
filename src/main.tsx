@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './context/app.context'
 import ErrorBoundary from './components/ErrorBoundary'
+import 'src/i18n/i18n'
 
 const queryClient = new QueryClient({
   defaultOptions: {
