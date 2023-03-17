@@ -8,6 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import { AppProvider } from './context/app.context'
+import ErrorBoundary from './components/ErrorBoundary'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -20,12 +21,15 @@ const queryClient = new QueryClient({
   }
 })
 
+// Bao bọc ErrorErrorBoundary cái cái App thì cả cái app mình đc bảo vệ bởi ErrorBoundary nếu có lỗi trong cả app thì ErrorErrorBoundary nó có thể render về cho chúng ta một UI dự phòng
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <QueryClientProvider client={queryClient}>
         <AppProvider>
-          <App />
+          <ErrorBoundary>
+            <App />
+          </ErrorBoundary>
         </AppProvider>
         <ReactQueryDevtools initialIsOpen={false} />
         <ToastContainer />
