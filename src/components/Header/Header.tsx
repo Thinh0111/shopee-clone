@@ -95,7 +95,7 @@ const Header = () => {
                           vào giỏ hàng
                         </div>
                         <Link
-                          to={path.card}
+                          to={path.cart}
                           className=' rounded-sm bg-orange px-4 py-2 capitalize text-white hover:bg-opacity-90'
                         >
                           Xem giỏ hàng
