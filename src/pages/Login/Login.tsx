@@ -97,6 +97,7 @@ const Login = () => {
                 register={register}
                 placeholder='Password'
                 className='mt-3'
+                classNameEye='absolute right-[5px] h-5 w-5 cursor-pointer top-[12px]'
                 errorMessage={errors.password?.message}
                 // rules={rules.password}
                 autoComplete='on'

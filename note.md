@@ -109,7 +109,7 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - range(1,32) thì nó generate ra 1 mảng từ 1 đến 31
 
-- lấy từ trong form ra nên dùng watch cái getValues chỉ hiệu quả khi lấy từ trong function khi trigger một cái gì đó thôi thì getValues mới hiệu quả. Còn bình thường render ra thì dùng watch.
+- lấy từ trong form ra nên dùng watch cái getValues chỉ hiệu quả khi lấy từ trong function khi trigger một cái gì đó thôi thì getValues mới hiệu quả. Còn bình thường render ra thì dùng watch. (Dùng watch sẽ luôn đảm bảo cho component re-render và lấy đc value mới nhất. Còn getvalue thì nó k làm component em render nên k get đc đâu)
 
 - toISOString() là một phương thức của đối tượng Date trong JavaScript để chuyển đổi đối tượng Date thành chuỗi đại diện cho ngày và thời gian dưới định dạng chuẩn ISO 8601. Ví dụ, nếu có một đối tượng Date đại diện cho ngày 15/03/2023 lúc 14:30:00, khi gọi phương thức toISOString(), sẽ trả về chuỗi "2023-03-15T14:30:00.000Z".
 
