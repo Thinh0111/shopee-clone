@@ -7,6 +7,7 @@ import MainLayout from './layouts/MainLayout'
 import RegisterLayout from './layouts/RegisterLayout'
 import Cart from './pages/Cart'
 import Login from './pages/Login'
+import NotFound from './pages/NotFound'
 import ProductDetail from './pages/ProductDetail'
 import ProductList from './pages/ProductList'
 import Register from './pages/Register'
@@ -107,6 +108,14 @@ const useRouteElement = () => {
       element: (
         <MainLayout>
           <ProductDetail />
+        </MainLayout>
+      )
+    },
+    {
+      path: '*',
+      element: (
+        <MainLayout>
+          <NotFound />
         </MainLayout>
       )
     }
