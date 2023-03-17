@@ -115,6 +115,8 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - new Date(2023, 2, 15) sẽ tạo ra một đối tượng Date đại diện cho ngày 15/03/2023.
 
+- NavLink chỉ hiệu quả đối với những cái route dựa trên `params` thôi. Còn những cái liên quan đến `queryParams` (sau dấu `?`) thì NavLink ko có hoạt động tốt đối với isActive `queryParams`
+
 ```js
 const {
   register,
