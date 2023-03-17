@@ -126,7 +126,7 @@ const ProductDetail = () => {
     const purchase = res.data.data
 
     // chuyển state purchaseId sang trang card
-    navigate(path.card, {
+    navigate(path.cart, {
       state: {
         purchaseId: purchase._id
       }

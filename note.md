@@ -117,6 +117,12 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - NavLink chỉ hiệu quả đối với những cái route dựa trên `params` thôi. Còn những cái liên quan đến `queryParams` (sau dấu `?`) thì NavLink ko có hoạt động tốt đối với isActive `queryParams`
 
+- Nếu không dùng React.lazy thì nó tải 1 lần duy nhất ngay từ khi vào cái app. Khi vào cái app nó sẻ tải hết tất cả các page, tải hết tất cả mọi thứ. Điểm thuận lợi việc tải hết mọi thứ chuyển route rất là nhanh không có hiện tượng bị dựt, nhấp nháy.
+
+- Còn việc lazy load thì nó chuyển route chậm, bởi vì nó cần phải download cái JS từ trên server về. Để cho người dùng có một tốc độ load trang ngay từ lần đầu tiên nó nhanh hơn.
+
+- Nếu build thông thường ko biết file nào nhiều dung lượng nhất cần có 1 công cụ Rollup Plugin Visualizer để phân tích file build cách cài đặt `npm install --save-dev rollup-plugin-visualizer`
+
 ```js
 const {
   register,
