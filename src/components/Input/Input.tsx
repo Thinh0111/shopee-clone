@@ -1,26 +1,31 @@
 import { InputHTMLAttributes, useState } from 'react'
-import type { RegisterOptions, UseFormRegister } from 'react-hook-form'
-interface Props extends InputHTMLAttributes<HTMLInputElement> {
+import type { RegisterOptions, UseFormRegister, FieldValues, FieldPath } from 'react-hook-form'
+
+// Ta có register và name có chung 1 điểm chung là nó phụ thuộc vào 1 cái TFieldValues
+// generic type TFieldValues extends FieldValues = FieldValues trong 1 function nó vẫn đóng vai trò cầu nối dữ liệu giữa cái name và register.
+interface Props<TFieldValues extends FieldValues> extends InputHTMLAttributes<HTMLInputElement> {
   errorMessage?: string
   classNameInput?: string
   classNameError?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  register?: UseFormRegister<any>
+  register?: UseFormRegister<TFieldValues>
   rules?: RegisterOptions
   classNameEye?: string
+  name: FieldPath<TFieldValues>
 }
 
-const Input = ({
+// Controller và Input đều nhận vào 1 generic type TFieldValues extends FieldValues = FieldValues
+export default function Input<TFieldValues extends FieldValues = FieldValues>({
   errorMessage,
+  className,
   name,
   register,
-  className,
   rules,
-  classNameInput = 'w-full rounded-sm border border-gray-300 p-3 outline-none focus:border-gray-500 focus:shadow-sm',
-  classNameError = 'mt-1 min-h-[1rem] text-sm text-red-600',
+  classNameInput = 'p-3 w-full outline-none border border-gray-300 focus:border-gray-500 rounded-sm focus:shadow-sm',
+  classNameError = 'mt-1 text-red-600 min-h-[1.25rem] text-sm',
   classNameEye = 'absolute top-[8px] right-[5px] h-5 w-5 cursor-pointer',
   ...rest
-}: Props) => {
+}: Props<TFieldValues>) {
   const [openEye, setOpenEye] = useState(false)
   const registerResult = register && name ? register(name, rules) : null
 
@@ -34,6 +39,7 @@ const Input = ({
     }
     return rest.type
   }
+
   return (
     <div className={'relative ' + className}>
       <input className={classNameInput} {...registerResult} {...rest} type={handleType()} />
@@ -77,5 +83,3 @@ const Input = ({
     </div>
   )
 }
-
-export default Input

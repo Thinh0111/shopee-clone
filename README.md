@@ -1,5 +1,6 @@
-#Dự án Shopee Clone Typescript
-##Chức năng trong dự án
+# Dự án Shopee Clone Typescript
+
+## Chức năng trong dự án
 
 - Authentication module: Quản lý bằng JWT
 
@@ -33,7 +34,7 @@
   - Đổi mật khẩu
   - Xem tình trạng đơn hàng
 
-##Công nghệ sử dụng
+## Công nghệ sử dụng
 
 - UI / CSS Library: Tailwindcss + HeadlessUI
 - State Management: React Query cho async state và React Context cho state thường
