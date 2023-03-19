@@ -11,6 +11,7 @@ import categoryApi from 'src/api/category.api'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import path from 'src/constants/path'
 import useQueryConfig from 'src/hook/useQueryConfig'
+import { Helmet } from 'react-helmet-async'
 
 export type QueryConfig = {
   [key in keyof ProductListConfig]: string
@@ -54,6 +55,10 @@ const ProductList = () => {
 
   return (
     <div className='bg-gray-200 py-6'>
+      <Helmet>
+        <title>Trang chủ</title>
+        <meta name='description' content='Trang chủ của Shopee clone' />
+      </Helmet>
       <div className='container'>
         {productData && (
           <div className='grid grid-cols-12 gap-6'>

@@ -123,6 +123,10 @@ Với range = 2 áp dụng cho khoảng cách đầu, cuối và xung quanh cure
 
 - Nếu build thông thường ko biết file nào nhiều dung lượng nhất cần có 1 công cụ Rollup Plugin Visualizer để phân tích file build cách cài đặt `npm install --save-dev rollup-plugin-visualizer`
 
+- sử dụng thư viện `html-to-text` để chuyển những đoạn html thành 1 đoạn text.
+
+- khi deloy web app lên, `copy` link gửi cho người khác thì title ko đúng như ở dưới local bởi vì title này chỉ render ở dưới client mà thôi. Để có 1 title đúng khi bạn `paste ` đương link này vào trang mạng xã hội như dùng NextJS (còn những cái mạng xã hội thì nó sẽ đọc source thì nó sẽ render ra cái title trên thẻ head)
+
 ```js
 const {
   register,
