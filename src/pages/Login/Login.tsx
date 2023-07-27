@@ -53,6 +53,7 @@ const Login = () => {
         if (isAxiosUnprocessableEntityError<ErrorResponse<FormData>>(error)) {
           const formError = error.response?.data.data
           if (formError) {
+            console.log(formError)
             Object.keys(formError).forEach((key) => {
               // keyof để lấy key trong object
               setError(key as keyof FormData, {
